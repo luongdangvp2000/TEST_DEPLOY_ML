@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ping-deployment  #deployment name 
 spec:
-  replicas: 2 #number of pods 
+  replicas: 1 #number of pods 
   selector:
     matchLabels: 
       app: ping
@@ -14,11 +14,11 @@ spec:
     spec:
       containers: #name of the container 
       - name: ping-pod #pod name 
-        image: test_deploy_ml:latest #docker image 
+        image: test-deploy-ml #docker image 
         imagePullPolicy: IfNotPresent
         resources:
           limits:
-            memory: "512Mi"
+            memory: "128Mi"
             cpu: "0.5"
         ports:
         - containerPort: 9696
