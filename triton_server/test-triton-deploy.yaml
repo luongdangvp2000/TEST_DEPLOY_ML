@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-custom
+  #namespace: monitoring
+  labels:
+    app: triton-custom
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: triton-custom
+  template:
+    metadata:
+      labels:
+        app: triton-custom
+    spec:
+      volumes:
+      - name: workspace
+        hostPath:
+          path: /home/dangln/models
+      - name: shm
+        emptyDir:
+          medium: Memory
+        # nfs:
+        #   server: 192.168.0.231
+        #   path: /media/Data/bangpc/nfs_volume/triton_repo/fd_repo
+        #   readOnly: false
+      containers:
+        - name: triton-custom
+          image: "nvcr.io/nvidia/tritonserver:23.01-py3"
+          ports:
+          - containerPort: 8000
+            name: http-triton
+          - containerPort: 8001
+            name: grpc-triton
+          - containerPort: 8002
+            name: metrics-triton
+          imagePullPolicy: IfNotPresent
+          # volumeMounts:
+          # - mountPath: /workspace
+          #   name: workspace
+          # - mountPath: /dev/shm
+          #   name: shm
+          # command: ["/bin/sh", "-c"]
+          # args: ["/opt/tritonserver/bin/tritonserver --model-repository=/workspace/triton_repo --strict-model-config=false"]
+            # nodeSelector:
+            #   tag: gpu_worker
