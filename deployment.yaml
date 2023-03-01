@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata:
+metadata: #basic information about the object instance: object name, time of creation, owner object,...
   name: ping-deployment  #deployment name 
-spec:
+spec: #specify the desired state of object 
   replicas: 1 #number of pods 
   selector:
     matchLabels: 
